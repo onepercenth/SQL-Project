@@ -56,3 +56,60 @@ join OrdersTB o on c.CustomerID = o.CustomerID
 join ProductTB p on o.ProductID = p.ProductID
 where p.ProductID=1
 </pre>
+2. **List all customers’ full names in ascending alphabetical order (LastName, then
+FirstName)**
+<pre>
+SELECT 
+    CONCAT(FirstName, ' ', LastName) AS FullName
+FROM 
+    CustomerTB
+ORDER BY 
+    LastName ASC, FirstName ASC;
+</pre>
+3. **Show every order together with the customer’s full name, the product name, quantity,
+unit price, total price (quantity × unit price), and order date**
+<pre>
+SELECT 
+    o.OrderID,
+    CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName,
+    p.ProductName,
+    o.Quantity,
+    p.UnitPrice,
+    (o.Quantity * p.UnitPrice) AS TotalPrice,
+    o.OrderDate
+FROM OrdersTB o
+JOIN CustomerTB c ON o.CustomerID = c.CustomerID
+JOIN ProductTB p ON o.ProductID = p.ProductID;
+</pre>
+4. **Show average sales per product category and sort in descending order**
+<pre>
+SELECT 
+    p.Category,
+    ROUND(AVG(o.Quantity * p.UnitPrice), 2) AS AvgSales
+FROM OrdersTB o
+JOIN ProductTB p ON o.ProductID = p.ProductID
+GROUP BY p.Category
+ORDER BY AvgSales DESC;
+</pre>
+5. **Which city generated the highest revenue for AxiaStores?**
+<pre>
+SELECT TOP 1
+    c.City,
+    SUM(o.Quantity * p.UnitPrice) AS TotalRevenue
+FROM OrdersTB o
+JOIN CustomerTB c ON o.CustomerID = c.CustomerID
+JOIN ProductTB p ON o.ProductID = p.ProductID
+GROUP BY c.City
+ORDER BY TotalRevenue DESC;
+</pre>
+### References
+- [Axia Africa SQL Exam](https://drive.google.com/file/d/13chnDFUr7NqbyPSRqy65d9pgeVCM86Ix/view)
+- [Axia Africa](https://student.axia.africa)
+## Table of Content
+- [Project Overview](#project-overview)
+- [Objectives](#objectives)
+- [Tools and Methodologies](#tools-and-methodologies)
+- [Key Analytical Questions](#key-analytical-questions)
+- [Samples of SQL Queries and Results](#samples-of-sql-queries-and-results)
+- [Answers to Analytical Questions and Results](#answers-to-analytical-questions-and-results)
+- [References](#references)
